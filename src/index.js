@@ -33,6 +33,7 @@ export default function getUuidInfoPlugin(config, baseUrl) {
       // GetFeatureInfo hinzufügen
       const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
       vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
+      // vcsUiApp.maps.eventHandler.addExclusiveInteraction(interaction);
 
       // Button in die Toolbox
       vcsUiApp.navbarManager.add(
