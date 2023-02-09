@@ -1,3 +1,4 @@
 {
-  "name": "getUuidInfo"
+  "name": "getUuidInfo",
+  "serviceendpoint": "https://localhost/getInfo"
 }

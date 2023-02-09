@@ -1,4 +1,7 @@
+import { WindowSlot, ButtonLocation, createToggleAction } from '@vcmap/ui';
 import { version, name } from '../package.json';
+import FeatureUuidInteraction from './featureUuidInteraction.js';
+import component from './uuidInfo.vue';
 
 /**
  * @typedef {Object} PluginState
@@ -11,12 +14,17 @@ import { version, name } from '../package.json';
  * @returns {import("@vcmap/ui/src/vcsUiApp").VcsPlugin<T, PluginState>}
  * @template {Object} T
  */
-export default function plugin(config, baseUrl) {
+export default function getUuidInfoPlugin(config, baseUrl) {
   // eslint-disable-next-line no-console
   console.log(config, baseUrl);
+  // eslint-disable-next-line no-console
+  console.log('Config');
+  // eslint-disable-next-line no-console
+  console.log(config);
   return {
     get name() { return name; },
     get version() { return version; },
+    // get serviceendpoint() { return serviceendpoint; },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp
      * @param {PluginState=} state
@@ -25,6 +33,33 @@ export default function plugin(config, baseUrl) {
     initialize: async (vcsUiApp, state) => {
       // eslint-disable-next-line no-console
       console.log('Called before loading the rest of the current context. Passed in the containing Vcs UI App ', vcsUiApp, state);
+
+      // Button in die Toolbox
+      const { action, destroy } = createToggleAction(
+        {
+          name: 'uuidInfo',
+        },
+        {
+          id: 'uuid-Info',
+          state: {
+            headerTitle: 'UUID Info',
+          },
+          component,
+          slot: WindowSlot.DYNAMIC_LEFT,
+        },
+        vcsUiApp.windowManager,
+        'notifier',
+      );
+      vcsUiApp.navbarManager.add(
+        { id: 'uuidH', action },
+        'uuidPnfo',
+        ButtonLocation.TOOL,
+      );
+      this.destroy = destroy();
+      // Funktion zum Ansprechen der des Features und der entsprechenden Ausgabe der hinterlegten Informationen
+      // this._app = vcsUiApp;  => bringt ein Fehler.
+      const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
+      vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
     },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp
@@ -40,7 +75,9 @@ export default function plugin(config, baseUrl) {
     toJSON() {
       // eslint-disable-next-line no-console
       console.log('Called when serializing this plugin instance');
-      return {};
+      return {
+        // showHelloWorldBtn: this.showHelloWorldBtn,
+      };
     },
     /**
      * should return the plugins state
@@ -53,6 +90,20 @@ export default function plugin(config, baseUrl) {
       return {
         prop: '*',
       };
+    },
+    i18n: {
+      en: {
+        getUuidInfo: {
+          title: 'Information',
+          close: 'Close',
+        },
+      },
+      de: {
+        getUuidInfo: {
+          title: 'Information',
+          close: 'Schließen',
+        },
+      },
     },
     destroy() {
       // eslint-disable-next-line no-console
