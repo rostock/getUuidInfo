@@ -1,3 +1,4 @@
+import { ToolboxType, ButtonLocation } from '@vcmap/ui';
 import { version, name } from '../package.json';
 import FeatureUuidInteraction from './featureUuidInteraction.js';
 
@@ -16,14 +17,10 @@ import FeatureUuidInteraction from './featureUuidInteraction.js';
 export default function getUuidInfoPlugin(config, baseUrl) {
   // eslint-disable-next-line no-console
   console.log(config, baseUrl);
-  // eslint-disable-next-line no-console
-  console.log('Config');
-  // eslint-disable-next-line no-console
-  console.log(config);
+
   return {
     get name() { return name; },
     get version() { return version; },
-    // get serviceendpoint() { return serviceendpoint; },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp
      * @param {PluginState=} state
@@ -33,17 +30,38 @@ export default function getUuidInfoPlugin(config, baseUrl) {
       // eslint-disable-next-line no-console
       console.log('Called before loading the rest of the current context. Passed in the containing Vcs UI App ', vcsUiApp, state);
 
-      // Button in die Toolbox
-
-      // Funktion zum Ansprechen der des Features und der entsprechenden Ausgabe der hinterlegten Informationen
-      // this._app = vcsUiApp;  => bringt ein Fehler.
+      // GetFeatureInfo hinzufügen
       const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
       vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
-      // eslint-disable-next-line no-console
-      console.log('ASDASDASDSDSADASDSADSAD');
-      // eslint-disable-next-line no-console
-      console.log(interaction);
-      interaction.active = true;
+
+      // Button in die Toolbox
+      vcsUiApp.navbarManager.add(
+        {
+          id: 'uuidInfo',
+          title: 'UUIDInfo',
+          type: ToolboxType.SINGLE,
+          action: {
+            name: 'uuid-info',
+            title: 'UuidInfo',
+            icon: 'mdi-triangle-outline',
+            active: false,
+            callback() {
+              this.active = !this.active;
+              if (this.active) {
+                interaction.setActive(true);
+                // eslint-disable-next-line no-console
+                console.log('bin aktiv');
+              } else {
+                interaction.setActive(false);
+                // eslint-disable-next-line no-console
+                console.log('bin nicht aktiv');
+              }
+            },
+          },
+        },
+        'getUuidInfo',
+        ButtonLocation.MENU, // TOOLBOX gibt es nicht ????
+      );
     },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp
@@ -59,9 +77,7 @@ export default function getUuidInfoPlugin(config, baseUrl) {
     toJSON() {
       // eslint-disable-next-line no-console
       console.log('Called when serializing this plugin instance');
-      return {
-        // showHelloWorldBtn: this.showHelloWorldBtn,
-      };
+      return {};
     },
     /**
      * should return the plugins state

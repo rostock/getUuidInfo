@@ -7,9 +7,10 @@ import { name } from '../package.json';
 
 export default class FeatureUuidInteraction extends AbstractInteraction {
   constructor(app, config) {
-    super(EventType.CLICK, ModificationKeyType.CTRL);
+    super(EventType.CLICK, ModificationKeyType.NONE);
     this._app = app;
     this._config = config; // aus config könnte ein Array werden.
+    this.setActive(false);
   }
 
   async pipe(event) {

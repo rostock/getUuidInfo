@@ -2,11 +2,8 @@
   <v-sheet class="uuid-info">
     <v-card class="pa-2 ma-2">
       <v-container>
-        <v-row class="justify-center mb-4">
-          <h1>{{ $t('getUuidInfo.title') }}</h1>
-        </v-row>
-        <span>{{ featureId }}</span>
-        <span>{{ serviceEndpoint }}</span>
+        <p>{{ featureId }}</p>
+        <p>{{ serviceEndpoint }}</p>
       </v-container>
     </v-card>
   </v-sheet>
@@ -23,7 +20,6 @@
     VSheet,
     VCard,
     VContainer,
-    VRow,
   } from 'vuetify/lib';
 
   // import { name } from '../package.json';
@@ -36,7 +32,6 @@
       VSheet,
       VCard,
       VContainer,
-      VRow,
     },
     props: {
       featureId: {
