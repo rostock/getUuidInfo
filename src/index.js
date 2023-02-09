@@ -1,7 +1,6 @@
-import { WindowSlot, ButtonLocation, createToggleAction } from '@vcmap/ui';
 import { version, name } from '../package.json';
 import FeatureUuidInteraction from './featureUuidInteraction.js';
-import component from './uuidInfo.vue';
+
 
 /**
  * @typedef {Object} PluginState
@@ -35,31 +34,13 @@ export default function getUuidInfoPlugin(config, baseUrl) {
       console.log('Called before loading the rest of the current context. Passed in the containing Vcs UI App ', vcsUiApp, state);
 
       // Button in die Toolbox
-      const { action, destroy } = createToggleAction(
-        {
-          name: 'uuidInfo',
-        },
-        {
-          id: 'uuid-Info',
-          state: {
-            headerTitle: 'UUID Info',
-          },
-          component,
-          slot: WindowSlot.DYNAMIC_LEFT,
-        },
-        vcsUiApp.windowManager,
-        'notifier',
-      );
-      vcsUiApp.navbarManager.add(
-        { id: 'uuidH', action },
-        'uuidPnfo',
-        ButtonLocation.TOOL,
-      );
-      this.destroy = destroy();
+
       // Funktion zum Ansprechen der des Features und der entsprechenden Ausgabe der hinterlegten Informationen
       // this._app = vcsUiApp;  => bringt ein Fehler.
       const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
       vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
+      console.log("ASDASDASDSDSADASDSADSAD");
+      console.log(interaction);
     },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp

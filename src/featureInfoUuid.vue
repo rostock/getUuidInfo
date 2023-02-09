@@ -6,6 +6,7 @@
           <h1>{{ $t('getUuidInfo.title') }}</h1>
         </v-row>
         <span>{{ featureId }}</span>
+        <span>{{ serviceEndpoint }}</span>
       </v-container>
     </v-card>
   </v-sheet>
@@ -39,6 +40,10 @@
     },
     props: {
       featureId: {
+        type: String,
+        required: true,
+      },
+      serviceEndpoint: {
         type: String,
         required: true,
       },

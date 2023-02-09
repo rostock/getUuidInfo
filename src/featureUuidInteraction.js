@@ -6,11 +6,10 @@ import { name } from '../package.json';
 // export function myHelper() {}
 
 export default class FeatureUuidInteraction extends AbstractInteraction {
-  constructor(app, info) {
+  constructor(app, config) {
     super(EventType.CLICK, ModificationKeyType.CTRL);
     this._app = app;
-    console.log("HHHHHHHHHHHHHHHHHHH");
-    console.log(info);
+    this._config = config; // aus config könnte ein Array werden.
   }
 
   async pipe(event) {
@@ -29,6 +28,7 @@ export default class FeatureUuidInteraction extends AbstractInteraction {
       },
       props: {
         featureId: event.feature.getId(),
+        serviceEndpoint: this._config,
       },
       position: {
         width: 500,
