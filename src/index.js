@@ -29,7 +29,8 @@ export default function getUuidInfoPlugin(config, baseUrl) {
     initialize: async (vcsUiApp, state) => {
       // eslint-disable-next-line no-console
       console.log('Called before loading the rest of the current context. Passed in the containing Vcs UI App ', vcsUiApp, state);
-
+      // eslint-disable-next-line no-console
+      console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
       // GetFeatureInfo hinzufügen
       const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
       vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
