@@ -39,8 +39,11 @@ export default function getUuidInfoPlugin(config, baseUrl) {
       // this._app = vcsUiApp;  => bringt ein Fehler.
       const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
       vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
-      console.log("ASDASDASDSDSADASDSADSAD");
+      // eslint-disable-next-line no-console
+      console.log('ASDASDASDSDSADASDSADSAD');
+      // eslint-disable-next-line no-console
       console.log(interaction);
+      interaction.active = true;
     },
     /**
      * @param {import("@vcmap/ui").VcsUiApp} vcsUiApp
