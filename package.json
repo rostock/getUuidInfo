@@ -1,6 +1,6 @@
 {
   "name": "getUuidInfo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Instead of storing the attributes directly on the objects itselfs, the attributinformations are available in a solr instance. So these Plugin getting the information from a configurable url and rendering the json response in a separate window.",
   "type": "module",
   "main": "src/index.js",
