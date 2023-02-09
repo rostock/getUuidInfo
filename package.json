@@ -1,0 +1,62 @@
+{
+  "name": "getUuidInfo",
+  "version": "0.1.0",
+  "description": "Instead of storing the attributes directly on the objects itselfs, the attributinformations are available in a solr instance. So these Plugin getting the information from a configurable url and rendering the json response in a separate window.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "prepublishOnly": "vcmplugin build",
+    "build": "vcmplugin build",
+    "pack": "vcmplugin pack",
+    "start": "vcmplugin serve",
+    "preview": "vcmplugin preview",
+    "buildStagingApp": "vcmplugin buildStagingApp",
+    "lint": "eslint \"{src,tests}/**/*.{js,vue}\"",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "author": "Tim Balschmiter <tim.balschmiter@rostock.de>",
+  "license": "MIT",
+  "keywords": [
+    "vcmap",
+    "plugin"
+  ],
+  "files": [
+    "src/",
+    "dist/",
+    "plugin-assets/",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./dist": "./dist/index.js"
+  },
+  "repository": {
+    "url": "https://github.com/rostock/getUuidInfo.git"
+  },
+  "eslintIgnore": [
+    "node_modules"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "extends": "@vcsuite/eslint-config/vue"
+  },
+  "peerDependencies": {
+    "@vcmap/cesium": "~1.97.1",
+    "@vcmap/core": "~5.0.0-rc.25",
+    "@vcmap/ui": "^5.0.0-rc.18",
+    "ol": "~7.1.0",
+    "vue": "~2.7.3",
+    "vuetify": "~2.6.7"
+  },
+  "devDependencies": {
+    "@vcmap/plugin-cli": "^2.1.2",
+    "@vcsuite/eslint-config": "^2.1.1",
+    "@vitest/coverage-c8": "^0.28.4",
+    "jest-canvas-mock": "^2.4.0",
+    "jsdom": "^21.1.0",
+    "vite": "^4.1.1",
+    "vitest": "^0.28.4"
+  }
+}
