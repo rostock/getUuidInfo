@@ -1,4 +1,4 @@
-import { ToolboxType, ButtonLocation } from '@vcmap/ui';
+import { ToolboxType } from '@vcmap/ui';
 import { version, name } from '../package.json';
 import FeatureUuidInteraction from './featureUuidInteraction.js';
 
@@ -29,40 +29,50 @@ export default function getUuidInfoPlugin(config, baseUrl) {
     initialize: async (vcsUiApp, state) => {
       // eslint-disable-next-line no-console
       console.log('Called before loading the rest of the current context. Passed in the containing Vcs UI App ', vcsUiApp, state);
-      // eslint-disable-next-line no-console
-      console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH'); // wird immer mehrfach (4x) ausgegeben
+
+
       // GetFeatureInfo hinzufügen
-      const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
-      vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
-      // vcsUiApp.maps.eventHandler.addExclusiveInteraction(interaction);
+      // const interaction = new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint);
+      // vcsUiApp.maps.eventHandler.addPersistentInteraction(interaction);
+      // vcsUiApp.maps.eventHandler.addExclusiveInteraction(
+      //  interaction,
+      //  () => { stop?.(); },
+      // );
 
       // Button in die Toolbox
-      vcsUiApp.navbarManager.add(
+      // vcsUiApp.navbarManager.add(
+      vcsUiApp.toolboxManager.add(
         {
-          id: 'uuidInfo',
-          title: 'UUIDInfo',
           type: ToolboxType.SINGLE,
           action: {
             name: 'uuid-info',
-            title: 'UuidInfo',
+            title: 'UUIDInfo',
             icon: 'mdi-triangle-outline',
             active: false,
+            _remove() {},
             callback() {
+              this._remove();
               this.active = !this.active;
               if (this.active) {
-                interaction.setActive(true);
-                // eslint-disable-next-line no-console
-                console.log('bin aktiv');
+                this._remove = vcsUiApp.maps.eventHandler.addExclusiveInteraction(
+                  new FeatureUuidInteraction(vcsUiApp, config.serviceendpoint),
+                  () => {
+                    this.active = false;
+                    this._remove = () => {};
+                  },
+                );
               } else {
-                interaction.setActive(false);
                 // eslint-disable-next-line no-console
-                console.log('bin nicht aktiv');
+                vcsUiApp.windowManager.remove('featureUuidInfo-window');
+                this._remove = () => {};
               }
+            },
+            destroy() {
+              this._remove();
             },
           },
         },
         'getUuidInfo',
-        ButtonLocation.MENU, // TOOLBOX gibt es nicht ????
       );
     },
     /**
